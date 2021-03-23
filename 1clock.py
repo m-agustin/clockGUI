@@ -5,14 +5,16 @@ import pygame, time
 
 #Tkinter window
 window = Tk(className='Clock')
-window.geometry('600x230')  #size of window
+window.geometry('600x250')  #size of window
 window.configure(bg='LavenderBlush2') #changed bg to a different colour
 window.resizable(False, False)  #prevents resizing window
 
 #Stopwatch functions
 stopwatch_counter_num = -1
 stopwatch_running = False
-
+#Timer functions
+timer_counter_num = 60000   #1 minute
+timer_running = False
 
 def clock():
     date_time = datetime.now()
@@ -31,7 +33,7 @@ def alarm():
     if str(alarm_time) == str(time_now):  #conditional statement, compares current time to user input time
         alarm_status_label.config(text='It is time!')
         pygame.mixer.init()
-        sounda = pygame.mixer.Sound('/Users/marichuanne/Downloads/trumpet.wav') 
+        sounda = pygame.mixer.Sound('/Users/marichuanne/Desktop/clockGUI/trumpet.wav') 
         sounda.play()   #song starts when condition met
         pygame.mixer.fadeout(10000) #song is 9 mins long, song will slowly fadeout after 10s
 
@@ -80,8 +82,61 @@ def stopwatch(work):
         stopwatch_counter_num = -1
         stopwatch_label.config(state='Stopwatch')
         stopwatch_start.config(state='enabled')
-        stopwatch_stop.config(state='disabled')
+        stopwatch_stop.config(state='enabled')
         stopwatch_reset.config(state='disabled')
+
+
+def timer_counter(label):
+    def count():
+        global timer_running
+        if timer_running:
+            global timer_counter_num
+            if timer_counter_num == 60000:      #if input time is reached, wav file will play and timer resets
+                timer_label='Time is up!'
+                pygame.mixer.init()
+                sounda = pygame.mixer.Sound('/Users/marichuanne/Desktop/clockGUI/trumpet.wav') 
+                sounda.play()
+                pygame.mixer.fadeout(10000)
+                timer_running = False
+                timer('reset')
+            else:
+                timer_time = datetime.fromtimestamp(timer_counter_num)
+                timer_time_now = timer_time.strftime('%H:%M:%S')
+                timer_label = timer_time_now
+                timer_counter_num -= 1      #timer will subtract 1 second from user's input every time
+            label.config(text=timer_label)
+            label.after(1000, count)
+    count()
+
+def timer(work):
+    if work == 'start':
+        global timer_running, timer_counter_num
+        timer_running = True
+        if timer_counter_num == 60000:
+            timer_time = timer_input.get()
+            hrs,mins,secs = timer_time.split(':')
+            mins = int(mins) + (int(hrs) * 60)
+            secs = int(secs) + (mins * 60)
+            timer_counter_num = timer_counter_num + secs    #Displays the amount of time left from the user's input
+        timer_counter(timer_label)
+        timer_start.config(state='disabled')
+        timer_stop.config(state='enabled')
+        timer_reset.config(state='enabled')
+        timer_input.delete(0,END)
+    elif work == 'stop':
+        timer_running = False
+        timer_start.config(state='enabled')
+        timer_stop.config(state='disabled')
+        timer_reset.config(state='enabled')
+    elif work == 'reset':
+        timer_running = False
+        timer_counter_num = 60000
+        timer_start.config(state='enabled')
+        timer_stop.config(state='disabled')
+        timer_reset.config(state='disabled')
+        timer_input.config(state='enabled')
+        timer_label.config(text='Timer')
+
 
 #Notebook initialization
 tabs_control = Notebook(window)
@@ -121,7 +176,18 @@ stopwatch_reset.pack(anchor='center')
 #timer
 timer_tab = Frame(tabs_control)
 tabs_control.add(timer_tab, text='Timer')
-
+timer_input = Entry(timer_tab, font='calibiri 15 bold')
+timer_input.pack(anchor='center')
+timer_instructions_label = Label(timer_tab, font='calibri 10 bold', text='Enter Timer Time.\nFormat: 00:00:00')
+timer_instructions_label.pack(anchor='s')
+timer_label = Label(timer_tab, font='calibri 40 bold', text='Timer')
+timer_label.pack(anchor='center')
+timer_start = Button(timer_tab, text='Start', command=lambda:timer('start'))
+timer_start.pack(anchor='center')
+timer_stop = Button(timer_tab, text='Stop', state='disabled',command=lambda:timer('stop'))
+timer_stop.pack(anchor='center')
+timer_reset = Button(timer_tab, text='Reset', state='disabled', command=lambda:timer('reset'))
+timer_reset.pack(anchor='center')
 
 tabs_control.pack(expand= 1, fill='both')
 
