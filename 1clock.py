@@ -9,8 +9,8 @@ window.geometry('600x230')  #size of window
 window.configure(bg='LavenderBlush2') #changed bg to a different colour
 window.resizable(False, False)  #prevents resizing window
 
-#operates stopwatch
-stopwatch_counter_num = 66600
+#Stopwatch functions
+stopwatch_counter_num = -1
 stopwatch_running = False
 
 
@@ -39,7 +39,6 @@ def alarm():
         set_alarm_button.config(state='enabled')
         alarm_time_input.delete(0,END)      #input box will reset once alarm is fulfilled
         alarm_status_label.config(text='')
-        
     else:
         alarm_status_label.config(text='Alarm Started')
         alarm_time_input.config(state='disabled')   #only 1 alarm input at a time
@@ -51,18 +50,39 @@ def stopwatch_counter(label):
     def count():
         if stopwatch_running:
             global stopwatch_counter_num
-                if stopwatch_counter_num==66600:
-                    display="Starting..."
-                else:
-                    tt = datetime.datetime.fromtimestamp(stopwatch_counter_num) 
-                    string = tt.strftime("%H:%M:%S") 
-                    display=string 
-                label.config(text=display)
-                label.after(1000, count)
-                stopwatch_counter_num += 1
-    count()
+            if stopwatch_counter_num == -1:     #stopwatch starts if counter at -1
+                stopwatch_label='Starting...'
+            else:
+                stopwatch_time = datetime.fromtimestamp(stopwatch_counter_num)  #if stopwatch started, output will be counting up in hr:m:s format
+                stopwatch_time_now = stopwatch_time.strftime('%H:%M:%S')
+                stopwatch_label = str(stopwatch_time_now)
+            label.config(text=stopwatch_label)
+            label.after(1000, count)    #adds 1second/1000milliseconds to time
+            stopwatch_counter_num += 1 
+    count() #will continue to run until stopped/reset
 
-    
+def stopwatch(work):
+    if work == 'start':     #start button, will start stopwatch, allowed to stop & reset
+        global stopwatch_running
+        stopwatch_running = True
+        stopwatch_start.config(state='disabled')
+        stopwatch_stop.config(state='enabled')
+        stopwatch_reset.config(state='enabled')
+        stopwatch_counter(stopwatch_label)
+    elif work == 'stop':    #stop button, will pause/stop stopwatch, allowed to start & reset
+        stopwatch_running = False
+        stopwatch_start.config(state='enabled')
+        stopwatch_stop.config(state='disabled')
+        stopwatch_reset.config(state='enabled')
+    elif work == 'reset':   #reset button, will turn counter back to zero
+        global stopwatch_counter_num
+        stopwatch_running = True
+        stopwatch_counter_num = -1
+        stopwatch_label.config(state='Stopwatch')
+        stopwatch_start.config(state='enabled')
+        stopwatch_stop.config(state='disabled')
+        stopwatch_reset.config(state='disabled')
+
 #Notebook initialization
 tabs_control = Notebook(window)
 
