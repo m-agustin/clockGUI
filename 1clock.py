@@ -21,8 +21,8 @@ def clock():
     date = date_time.strftime('%b %d %Y     %A') #shows date, month/date/year/week
     time = date_time.strftime('%I:%M:%S %p') #shows time in 12hr clock with am/pm indication
 #converted date & time into tkinter labels to display output into window
-    date_label.config(text= date)
-    time_label.config(text= time)
+    date_label.config(text=date)
+    time_label.config(text=time)
     time_label.after(1000, clock)
 
 
