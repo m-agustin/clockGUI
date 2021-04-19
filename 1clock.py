@@ -94,7 +94,7 @@ def timer_counter(label):
             if timer_counter_num == 60000:      #if input time is reached, wav file will play and timer resets
                 timer_label='Time is up!'
                 pygame.mixer.init()
-                sounda = pygame.mixer.Sound('/Users/marichuanne/Desktop/clockGUI/trumpet.wav') 
+                sounda = pygame.mixer.Sound('/clockGUI/trumpet.wav') 
                 sounda.play()
                 pygame.mixer.fadeout(10000)
                 timer_running = False
