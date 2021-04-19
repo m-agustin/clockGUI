@@ -33,7 +33,7 @@ def alarm():
     if str(alarm_time) == str(time_now):  #conditional statement, compares current time to user input time
         alarm_status_label.config(text='It is time!')
         pygame.mixer.init()
-        sounda = pygame.mixer.Sound('/Users/marichuanne/Desktop/clockGUI/trumpet.wav') 
+        sounda = pygame.mixer.Sound('/clockGUI/trumpet.wav') 
         sounda.play()   #song starts when condition met
         pygame.mixer.fadeout(10000) #song is 9 mins long, song will slowly fadeout after 10s
 
