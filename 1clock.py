@@ -3,10 +3,10 @@ from tkinter.ttk import *
 from datetime import datetime
 import pygame, time
 
+
 #Tkinter window
-window = Tk(className='Clock')
-window.geometry('600x250')  #size of window
-window.configure(bg='LavenderBlush2') #changed bg to a different colour
+window = Tk(className='Clock') #gui title
+window.geometry('600x250') #gui size
 window.resizable(False, False)  #prevents resizing window
 
 #Stopwatch functions
@@ -144,27 +144,27 @@ tabs_control = Notebook(window)
 #clock
 clock_tab = Frame(tabs_control)
 tabs_control.add(clock_tab, text='Clock')
-date_label = Label(clock_tab, font='calibri 30')
+date_label = Label(clock_tab, font=('Calibri', 30), foreground='#107896')
 date_label.pack(anchor='center')
-time_label = Label(clock_tab, font='calibri 50 bold')
+time_label = Label(clock_tab, font=('Calibri', 50, 'bold'), foreground='#107896')
 time_label.pack(anchor='center')
 
 #alarm
 alarm_tab = Frame(tabs_control)
 tabs_control.add(alarm_tab, text='Alarm')
-alarm_time_input = Entry(alarm_tab, font='calibri 15 bold')
+alarm_time_input = Entry(alarm_tab, font=('Calibri', 15, 'bold'), foreground='#107896')
 alarm_time_input.pack(anchor='center')
-alarm_instructions_label = Label(alarm_tab, font= 'calibri 10 bold', text='Enter Alarm Time.\nFormat: 00:00 PM')
+alarm_instructions_label = Label(alarm_tab, font=('Calibri', 10, 'bold'), text='Enter Alarm Time.\nFormat: 00:00 PM', foreground='#107896')
 alarm_instructions_label.pack(anchor='s')
 set_alarm_button = Button(alarm_tab, text='Set', command=alarm)
 set_alarm_button.pack(anchor='s')
-alarm_status_label = Label(alarm_tab, font='calibri 15 bold')
+alarm_status_label = Label(alarm_tab, font=('Calibri', 15, 'bold'), foreground='#107896')
 alarm_status_label.pack(anchor='s')
 
 #stopwatch
 stopwatch_tab = Frame(tabs_control)
 tabs_control.add(stopwatch_tab, text='Stopwatch')
-stopwatch_label = Label(stopwatch_tab, font='calibri 40 bold', text='Stopwatch')
+stopwatch_label = Label(stopwatch_tab, font=('Calibri', 40, 'bold'), text='Stopwatch', foreground='#107896')
 stopwatch_label.pack(anchor='center')
 stopwatch_start = Button(stopwatch_tab, text='Start', command=lambda:stopwatch('start'))
 stopwatch_start.pack(anchor='center')
@@ -176,11 +176,11 @@ stopwatch_reset.pack(anchor='center')
 #timer
 timer_tab = Frame(tabs_control)
 tabs_control.add(timer_tab, text='Timer')
-timer_input = Entry(timer_tab, font='calibiri 15 bold')
+timer_input = Entry(timer_tab, font=('Calibri', 15, 'bold'), foreground='#107896')
 timer_input.pack(anchor='center')
-timer_instructions_label = Label(timer_tab, font='calibri 10 bold', text='Enter Timer Time.\nFormat: 00:00:00')
+timer_instructions_label = Label(timer_tab, font=('Calibri', 10, 'bold'), text='Enter Timer Time.\nFormat: 00:00:00', foreground='#107896')
 timer_instructions_label.pack(anchor='s')
-timer_label = Label(timer_tab, font='calibri 40 bold', text='Timer')
+timer_label = Label(timer_tab, font=('Calibri', 40, 'bold'), text='Timer', foreground='#107896')
 timer_label.pack(anchor='center')
 timer_start = Button(timer_tab, text='Start', command=lambda:timer('start'))
 timer_start.pack(anchor='center')
