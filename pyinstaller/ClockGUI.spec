@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['clock_gui.py'],
-             pathex=['/Users/marichuanne/Documents/clockGUI'],
+             pathex=['/Documents/clockGUI'],
              binaries=[],
              datas=[],
              hiddenimports=['tkinter', 'packaging.requirements', 'packaging.specifiers', 'packaging.version', 'pkg_resources.markers'],
